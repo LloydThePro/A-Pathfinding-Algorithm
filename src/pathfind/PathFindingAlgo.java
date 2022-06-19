@@ -103,7 +103,7 @@ public class PathFindingAlgo {
 		}
 		
 		
-		/*if(y < 19 && x < 19) {
+		if(y < 19 && x < 19) {
 			neighbor.add(tilemap[(x + 1) + (y + 1) * TileMap.width]);
 		}
 
@@ -117,7 +117,7 @@ public class PathFindingAlgo {
 		
 		if(y > 0 && x < 19) {
 			neighbor.add(tilemap[(x + 1) + (y - 1) * TileMap.width]);
-		}*/
+		}
 		
 		
 		for(int i = 0; i < neighbor.size(); i++) {
@@ -125,7 +125,7 @@ public class PathFindingAlgo {
 			if(alreadyInCloseList(neighbor.get(i))) { continue;}
 			
 			neighbor.get(i).setParent(tile);
-			neighbor.get(i).updateCost(start, end);
+			neighbor.get(i).updateCost(tile, end);
 			if(!alreadyInOpenList(neighbor.get(i))) {
 				openTile.add(neighbor.get(i));
 			}
