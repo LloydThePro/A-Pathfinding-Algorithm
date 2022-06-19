@@ -42,8 +42,10 @@ public class Tile {
 		//gCost = Math.abs(start.x - x) + Math.abs(start.y - y);
 		//hCost = Math.abs(x - end.x) + Math.abs(y - end.y);
 		
+		int parentDistance = 0;
+		if(parentTile != null) parentDistance = parentTile.gCost;
 		
-		gCost = (int) Math.sqrt(Math.pow(start.x - x, 2) + Math.pow(start.y - y, 2));
+		gCost = (int) Math.sqrt(Math.pow(start.x - x, 2) + Math.pow(start.y - y, 2)) + parentDistance;
 		hCost = (int) Math.sqrt(Math.pow(x - end.x, 2) + Math.pow(y - end.y, 2));
 		fCost = gCost + hCost;
 	}
