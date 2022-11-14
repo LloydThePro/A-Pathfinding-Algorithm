@@ -138,7 +138,7 @@ public class Renderer extends JPanel implements Runnable{
 					break;
 					
 				case KeyEvent.VK_ESCAPE:
-					System.out.println("fuck");
+					
 					tileMap.reset();
 					break;
 					

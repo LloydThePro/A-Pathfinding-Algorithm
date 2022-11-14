@@ -1,14 +1,16 @@
 package pathfind;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 
 import pathfind.Tile;
 
 
-public class TileMap {
+public class TileMap<AttributeCharacterIterator> {
 	public static int width, height;
 	private Tile tilemap[];
 	private Tile endTile;
@@ -33,7 +35,9 @@ public class TileMap {
 	}
 	
 	public void reset() {
-		
+		for(int i = 0; i < tilemap.length; i++) {
+			tilemap[i].resetAttrib();
+		}
 		
 		PathFindingAlgo.reset();
 	}
@@ -77,7 +81,7 @@ public class TileMap {
 			Renderer.mouseInput.isClick = false;
 			float x = Renderer.mouseInput.x / offsetX - 0.2f, y = Renderer.mouseInput.y / offsetY - 0.85f;
 			
-			//System.out.println("x: " + x + " y: " + y);
+			
 			Tile t = tilemap[(int)x + (int)y * width];
 			
 			switch(Renderer.mouseInput.mouse) {
@@ -142,16 +146,24 @@ public class TileMap {
 						
 					}
 				}
-				
-				
+	
+				g.setFont( new Font(g.getFont().getFontName(), Font.PLAIN, 20));
 				g.fillRect(x * offsetX, y * offsetY, offsetX, offsetY);
 				
 				g.setColor(Color.white);
 				g.drawRect(x * offsetX, (y * offsetY), offsetX, offsetY);
-				g.setColor(Color.CYAN);
-				g.drawString(String.valueOf(tile.getFCost()),x * offsetX, y * offsetY + 10);
-				g.setColor(Color.MAGENTA);
-				g.drawString(String.valueOf(tile.getHCost()),x * offsetX + 20, y * offsetY + 10);
+				
+				if(tile.getFCost() > 0) {
+					g.setColor(Color.CYAN);
+					g.drawString(String.valueOf((int)tile.getFCost()),x * offsetX, y * offsetY + 25);
+				}
+				
+				if(tile.getGCost() > 0) {
+					g.setColor(Color.MAGENTA);
+					g.drawString(String.valueOf((int)tile.getGCost()),x * offsetX + 23, y * offsetY + 25);
+				}
+				
+				
 			}
 		}
 		

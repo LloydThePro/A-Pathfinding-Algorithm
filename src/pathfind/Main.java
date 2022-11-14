@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		JFrame myFrame = new JFrame("PathFind");
-		Renderer render = new Renderer(800, 680);
+		Renderer render = new Renderer(900, 800);
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myFrame.setLocation(0, 0);
 		myFrame.setResizable(false);

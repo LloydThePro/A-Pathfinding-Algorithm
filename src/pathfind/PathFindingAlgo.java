@@ -37,17 +37,21 @@ public class PathFindingAlgo {
 		closeTile.clear();
 	}
 	
-	public static  ArrayList<Tile> _debug_getPath() {return path;}
+	
+	
+	
+	
 	public static ArrayList<Tile> getPath() {
 		
 		if(!isPathFound) return null;
 		
-		
-		
+	
 		Tile current = end.getParent();
-		
-		while(current != start) {
+		while(current != start && current != null) {
+			
+			
 			path.add(current);
+			
 			current = current.getParent();
 		}
 		
@@ -88,14 +92,14 @@ public class PathFindingAlgo {
 		
 		ArrayList<Tile> neighbor = new ArrayList<Tile>();
 		
-		if(y < 19) {
+		if(y < TileMap.height - 1) {
 			neighbor.add(tilemap[x + (y + 1) * TileMap.width]);
 		}
 		
 		if(y > 0) {
 			neighbor.add(tilemap[x + (y - 1) * TileMap.width]);
 		}
-		if(x < 19) {
+		if(x < TileMap.width - 1) {
 			neighbor.add(tilemap[(x + 1) + y * TileMap.width]);
 		}
 		if(x > 0) {
@@ -103,11 +107,11 @@ public class PathFindingAlgo {
 		}
 		
 		
-		if(y < 19 && x < 19) {
+		if(y < TileMap.height - 1 && x < TileMap.width - 1) {
 			neighbor.add(tilemap[(x + 1) + (y + 1) * TileMap.width]);
 		}
 
-		if(y < 19 && x > 0) {
+		if(y < TileMap.height - 1 && x > 0) {
 			neighbor.add(tilemap[(x - 1) + (y + 1) * TileMap.width]);
 		}
 		
@@ -115,18 +119,24 @@ public class PathFindingAlgo {
 			neighbor.add(tilemap[(x - 1) + (y - 1) * TileMap.width]);
 		}
 		
-		if(y > 0 && x < 19) {
+		if(y > 0 && x < TileMap.width - 1) {
 			neighbor.add(tilemap[(x + 1) + (y - 1) * TileMap.width]);
 		}
 		
 		
 		for(int i = 0; i < neighbor.size(); i++) {
-			if(neighbor.get(i).isTileSolid())continue;
-			if(alreadyInCloseList(neighbor.get(i))) { continue;}
 			
-			neighbor.get(i).setParent(tile);
-			neighbor.get(i).updateCost(tile, end);
+			
+			
+			if(neighbor.get(i).isTileSolid())continue;
+			if( alreadyInCloseList( neighbor.get(i)) ) { continue; }
+			
+			
+			
+			
 			if(!alreadyInOpenList(neighbor.get(i))) {
+				neighbor.get(i).setParent(tile);
+				neighbor.get(i).updateCost(tile, end);
 				openTile.add(neighbor.get(i));
 			}
 		}
@@ -142,7 +152,7 @@ public class PathFindingAlgo {
 		if(openTile.size() == 0)return null;
 		
 		
-		int lowest = Integer.MAX_VALUE;
+		float lowest = 9999999.0f;
 		int index = 0;
 		for(int i = 0; i < openTile.size(); i++) {
 			if(openTile.get(i).getFCost() < lowest) {
@@ -154,22 +164,6 @@ public class PathFindingAlgo {
 		return openTile.get(index);
 	}
 	
-	public static void _debug_path_find() {
-		
-		isPathFound = true;
-		
-		debug_currentTile = findLowestFCost();
-		path.add(debug_currentTile);
-		openTile.remove(debug_currentTile);
-		if(!alreadyInCloseList(debug_currentTile))
-		closeTile.add(debug_currentTile);
-		
-		//if(debug_currentTile == end)isPathFound = true;
-		
-		calculateNeighbor(debug_currentTile);
-		System.out.println("Current X: " + debug_currentTile.x + " Y: " + debug_currentTile.y);
-		
-	}
 	
 	public static void findPath() {
 		Tile currentTile = start;
@@ -180,7 +174,7 @@ public class PathFindingAlgo {
 			currentTile = findLowestFCost();
 			openTile.remove(currentTile);
 			if(!alreadyInCloseList(currentTile))
-			closeTile.add(currentTile);
+				closeTile.add(currentTile);
 			
 			if(currentTile == end) { 
 				isPathFound = true;
@@ -190,6 +184,8 @@ public class PathFindingAlgo {
 			calculateNeighbor(currentTile);
 			
 		}
+		
+		
 		
 		
 	}
